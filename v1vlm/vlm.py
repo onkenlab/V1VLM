@@ -94,7 +94,6 @@ class VisionLanguageModel:
 
     def get_image_prompt(self) -> str:
         response = self.get_last_response()
-        print(response)
         """Extract the image generation prompt from the model's output."""
         match = re.search(r"<GENERATION_PROMPT>(.*?)</GENERATION_PROMPT>", response)
         if match:
