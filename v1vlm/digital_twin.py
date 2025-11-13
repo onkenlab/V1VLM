@@ -38,7 +38,7 @@ class DigitalTwin:
         self.args = args
         self.model.train(False)
 
-        self.save_dir = args.output_dir / "eval"
+        self.save_dir = args.save_dir
         self.save_dir.mkdir(parents=True, exist_ok=True)
 
         utils.set_logger_handles(
@@ -99,6 +99,6 @@ class DigitalTwin:
             behavior=behavior,
             pupil_center=pupil_center,
         )
-        # We'll keep just 32 neurons
-        response = response.squeeze(0)[:32, BLANK_SIZE : (BLANK_SIZE + PATTERN_SIZE)]
+        # We'll keep just 256 neurons
+        response = response.squeeze(0)[:256, BLANK_SIZE : (BLANK_SIZE + PATTERN_SIZE)]
         return response

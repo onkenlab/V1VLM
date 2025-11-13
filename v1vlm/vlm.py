@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import torch
+from markdown_pdf import MarkdownPdf, Section
 from transformers import pipeline
 
 
@@ -120,7 +121,7 @@ class VisionLanguageModel:
         output = self.generator(text=self.chat, max_new_tokens=1024)
         self.append_assistant_message(output[0]["generated_text"][-1]["content"])
 
-    def produce_final_report(self, filename: Path) -> None:
+    def produce_final_report(self, save_dir: Path) -> None:
         next_message = {
             "role": "user",
             "content": [
@@ -129,7 +130,8 @@ class VisionLanguageModel:
                     "text": "Now write a full report, including the idea explored, \
                           experiments, results, and conclusions. Interpret these \
                           in light of the context that I mentioned earlier and include \
-                          relevant citations from that context. Also, \
+                          relevant citations from that context. Do not include any \
+                          citations not in that context. Also, \
                           suggest future directions for research. Do not include \
                           any image generation prompts in this report.",
                 }
@@ -138,8 +140,18 @@ class VisionLanguageModel:
         self.chat.append(next_message)
         output = self.generator(text=self.chat, max_new_tokens=2048)
         self.append_assistant_message(output[0]["generated_text"][-1]["content"])
+
+        # Save chat
+        with open("{save_dir}/chat.txt", "w") as f:
+            f.write(str(self.chat))
+
         report = self.get_last_response()
         print(report)
 
-        with open(filename, "w") as f:
+        with open(f"{save_dir}/report.md", "w") as f:
             f.write(report)
+
+        pdf = MarkdownPdf()
+        pdf.meta["title"] = "Study on Neural Coding Hypotheses in Mouse V1"
+        pdf.add_section(Section(report, toc=False))
+        pdf.save(f"{save_dir}/report.pdf")

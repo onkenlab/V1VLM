@@ -25,6 +25,11 @@ if __name__ == "__main__":
         default="./context.txt",
     )
     parser.add_argument(
+        "--save-dir",
+        type=Path,
+        default="./study_results",
+    )
+    parser.add_argument(
         "--evaluate",
         action="store_true",
         help="evaluate the model on the validation set after loading the checkpoint.",

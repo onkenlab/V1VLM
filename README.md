@@ -11,7 +11,7 @@ FLUX.1.
 After setting up [ViV1T](https://github.com/bryanlimy/ViV1T-closed-loop)
 install the following additional required packages:
 ```
-pip install diffusers sentencepiece transformers accelerate fpdf
+pip install diffusers sentencepiece transformers accelerate markdown-pdf
 ```
 
 
