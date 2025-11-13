@@ -1,4 +1,3 @@
-import json
 import re
 import textwrap
 from pathlib import Path
@@ -142,8 +141,8 @@ class VisionLanguageModel:
         self.append_assistant_message(output[0]["generated_text"][-1]["content"])
 
         # Save chat
-        with open(f"{save_dir}/chat.json", "w") as f:
-            json.dump(self.chat, f)
+        with open(f"{save_dir}/chat.txt", "w") as f:
+            f.write(str(self.chat))
 
         report = self.get_last_response()
         print(report)
