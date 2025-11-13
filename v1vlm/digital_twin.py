@@ -4,7 +4,6 @@ from typing import Any
 
 import torch
 from torchvision import transforms
-
 from viv1t import data
 from viv1t.data.data import MovieDataset
 from viv1t.model import Model

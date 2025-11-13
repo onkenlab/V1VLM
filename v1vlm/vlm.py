@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Any
 
 import torch
-from fpdf import FPDF
 from transformers import pipeline
 
 
@@ -142,24 +141,5 @@ class VisionLanguageModel:
         report = self.get_last_response()
         print(report)
 
-        a4_width_mm = 210
-        pt_to_mm = 0.35
-        fontsize_pt = 10
-        fontsize_mm = fontsize_pt * pt_to_mm
-        margin_bottom_mm = 10
-        character_width_mm = 7 * pt_to_mm
-        width_text = a4_width_mm / character_width_mm
-        pdf = FPDF(orientation="P", unit="mm", format="A4")
-        pdf.set_auto_page_break(True, margin=margin_bottom_mm)
-        pdf.add_page()
-        pdf.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
-        pdf.set_font('DejaVu', '', size=fontsize_pt)
-        splitted = report.split("\n")
-
-        for line in splitted:
-            lines = textwrap.wrap(line, width_text)
-            if len(lines) == 0:
-                pdf.ln()
-            for wrap in lines:
-                pdf.cell(0, fontsize_mm, wrap, ln=1)
-        pdf.output(filename, "F")
+        with open(filename, "w") as f:
+            f.write(report)
