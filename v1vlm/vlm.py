@@ -141,7 +141,7 @@ class VisionLanguageModel:
         self.append_assistant_message(output[0]["generated_text"][-1]["content"])
 
         # Save chat
-        with open("{save_dir}/chat.txt", "w") as f:
+        with open(f"{save_dir}/chat.txt", "w") as f:
             f.write(str(self.chat))
 
         report = self.get_last_response()
