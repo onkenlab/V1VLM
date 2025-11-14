@@ -43,7 +43,13 @@ if __name__ == "__main__":
         default="",
         choices=["cpu", "cuda", "mps"],
         help="Device to use for computation. "
-        "use the best available device if --device is not specified.",
+        "Use the best available device if --device is not specified.",
+    )
+    parser.add_argument(
+        "--input-generator-device",
+        type=str,
+        default="cpu",
+        help="Device to use for input generation.",
     )
     parser.add_argument(
         "--compile", action="store_true", help="torch.compile the digital twin"

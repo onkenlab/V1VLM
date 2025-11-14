@@ -21,7 +21,7 @@ class V1VLM:
     ) -> None:
         self.args = args
         self.digital_twin = DigitalTwin(args)
-        self.input_generator = InputGenerator("cpu")
+        self.input_generator = InputGenerator(args.input_generator_device)
         self.vlm = VisionLanguageModel(args.context_file)
 
     def run_study(self, num_steps: int) -> None:
