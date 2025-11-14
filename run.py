@@ -1,5 +1,6 @@
 import argparse
 from argparse import RawTextHelpFormatter
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +13,7 @@ def main(args: Any) -> None:
 
 
 if __name__ == "__main__":
+    now = datetime.now()
     parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
     parser.add_argument("--data_dir", type=Path, default="./data")
     parser.add_argument(
@@ -27,15 +29,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "--save-dir",
         type=Path,
-        default="./study_results",
+        default="./study_" + now.strftime("%Y%m%d%H%M%S"),
     )
     parser.add_argument(
-        "--evaluate",
-        action="store_true",
-        help="evaluate the model on the validation set after loading the checkpoint.",
+        "--initial-prompt",
+        type=str,
+        default="",
     )
     parser.add_argument("--mouse_id", type=str, default="A")
-    parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument(
         "--device",
         type=str,
@@ -45,7 +46,7 @@ if __name__ == "__main__":
         "use the best available device if --device is not specified.",
     )
     parser.add_argument(
-        "--compile", action="store_true", help="torch.compile the model"
+        "--compile", action="store_true", help="torch.compile the digital twin"
     )
     parser.add_argument(
         "--precision",
@@ -57,7 +58,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "--num-steps", type=int, default=5, help="Number of interaction steps"
     )
-    parser.add_argument("--num-workers", type=int, default=0)
     parser.add_argument("--seed", type=int, default=1234)
     parser.add_argument("--verbose", type=int, default=2)
     main(parser.parse_args())

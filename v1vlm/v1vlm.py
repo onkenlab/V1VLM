@@ -27,7 +27,7 @@ class V1VLM:
     def run_study(self, num_steps: int) -> None:
         initial_image_prompt = "A grayscale image of random noise."
         input_image, response_image = self.run_experiment(initial_image_prompt)
-        self.vlm.initialize_chat(input_image, response_image)
+        self.vlm.initialize_chat(input_image, response_image, self.args.initial_prompt)
         save_dir = self.args.save_dir
         print(self.vlm.get_last_response())
         for step in range(num_steps):

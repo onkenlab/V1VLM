@@ -4,6 +4,7 @@ from typing import Any
 
 import torch
 from torchvision import transforms
+
 from viv1t import data
 from viv1t.data.data import MovieDataset
 from viv1t.model import Model
@@ -33,7 +34,7 @@ class DigitalTwin:
     def __init__(self, args: Any) -> None:
         utils.set_random_seed(args.seed)
         args.device = utils.get_device(args.device)
-        self.model, ds = load_model(args, evaluate=args.evaluate, compile=args.compile)
+        self.model, ds = load_model(args, evaluate=False, compile=args.compile)
         self.dataset = ds[args.mouse_id].dataset
         self.args = args
         self.model.train(False)
@@ -99,6 +100,6 @@ class DigitalTwin:
             behavior=behavior,
             pupil_center=pupil_center,
         )
-        # We'll keep just 256 neurons
-        response = response.squeeze(0)[:256, BLANK_SIZE : (BLANK_SIZE + PATTERN_SIZE)]
+        # We'll keep just the presentation interval
+        response = response.squeeze(0)[:, BLANK_SIZE : (BLANK_SIZE + PATTERN_SIZE)]
         return response

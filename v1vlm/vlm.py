@@ -1,3 +1,4 @@
+import json
 import re
 import textwrap
 from pathlib import Path
@@ -25,7 +26,9 @@ class VisionLanguageModel:
         with open(context_file, "r") as file:
             self.context = file.read()
 
-    def initialize_chat(self, input_image: Any, response_image: Any) -> None:
+    def initialize_chat(
+        self, input_image: Any, response_image: Any, initial_prompt: str = ""
+    ) -> None:
         self.chat = [
             {
                 "role": "system",
@@ -73,7 +76,8 @@ class VisionLanguageModel:
                         "text": "Now produce an initial hypothesis about how visual \
                               information is encoded in the primary visual cortex of mice \
                               as well as an image generation prompt for the first input \
-                              image to test and refine your hypothesis.",
+                              image to test and refine your hypothesis.\n"
+                        + initial_prompt,
                     },
                 ],
             },
@@ -121,6 +125,11 @@ class VisionLanguageModel:
         self.append_assistant_message(output[0]["generated_text"][-1]["content"])
 
     def produce_final_report(self, save_dir: Path) -> None:
+        # Save protocol
+        protocol = [message for message in self.chat if message["role"] == "assistant"]
+        with open(f"{save_dir}/protocol.json", "w") as f:
+            json.dump(protocol, f)
+
         next_message = {
             "role": "user",
             "content": [
@@ -139,10 +148,6 @@ class VisionLanguageModel:
         self.chat.append(next_message)
         output = self.generator(text=self.chat, max_new_tokens=2048)
         self.append_assistant_message(output[0]["generated_text"][-1]["content"])
-
-        # Save chat
-        with open(f"{save_dir}/chat.txt", "w") as f:
-            f.write(str(self.chat))
 
         report = self.get_last_response()
         print(report)
