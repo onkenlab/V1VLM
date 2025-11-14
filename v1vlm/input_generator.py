@@ -14,7 +14,6 @@ class InputGenerator:
         self.generator = FluxPipeline.from_pretrained(
             "black-forest-labs/FLUX.1-schnell", torch_dtype=torch.bfloat16
         ).to(self.device)
-        # self.generator.enable_model_cpu_offload() #save some VRAM by offloading the model to CPU. Remove this if you have enough GPU power
 
     def generate(self, prompt: str) -> torch.Tensor:
         """Generate the next image based on the given prompt using the provided pipeline."""
