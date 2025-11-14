@@ -1,4 +1,4 @@
-# V1VLM - An vision language model for analyzing neural coding in primary visual cortex
+# V1VLM - A vision language model for analyzing neural coding in primary visual cortex
 
 Code for the V1VLM model, a vision language model using
 [ViV1T](https://github.com/bryanlimy/ViV1T-closed-loop) as a digital twin of
