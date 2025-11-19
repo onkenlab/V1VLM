@@ -14,8 +14,8 @@ class VisionLanguageModel:
     chat: list[dict[str, Any]]
     context: str
 
-    def __init__(self, context_file) -> None:
-        vlm_name = "google/gemma-3-4b-it"
+    def __init__(self, context_file: Path, vlm_size: str = "4b") -> None:
+        vlm_name = f"google/gemma-3-{vlm_size}-it"
         self.generator = pipeline(
             "image-text-to-text",
             model=vlm_name,

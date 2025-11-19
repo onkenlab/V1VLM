@@ -32,6 +32,12 @@ if __name__ == "__main__":
         default="./study_" + now.strftime("%Y%m%d%H%M%S"),
     )
     parser.add_argument(
+        "--vlm-size",
+        type=str,
+        default="4b",
+        choices=["4b", "12b", "27b"],
+    )
+    parser.add_argument(
         "--initial-prompt",
         type=str,
         default="",

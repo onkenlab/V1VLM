@@ -22,7 +22,7 @@ class V1VLM:
         self.args = args
         self.digital_twin = DigitalTwin(args)
         self.input_generator = InputGenerator(args.input_generator_device)
-        self.vlm = VisionLanguageModel(args.context_file)
+        self.vlm = VisionLanguageModel(args.context_file, args.vlm_size)
 
     def run_study(self, num_steps: int) -> None:
         initial_image_prompt = "A grayscale image of random noise."
