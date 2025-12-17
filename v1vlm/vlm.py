@@ -6,21 +6,32 @@ from typing import Any
 
 import torch
 from markdown_pdf import MarkdownPdf, Section
-from transformers import pipeline
+from transformers import (
+    AutoProcessor,
+    AutoTokenizer,
+    Gemma3ForConditionalGeneration,
+    pipeline,
+)
 
 
 class VisionLanguageModel:
     generator: Any
+    processor: Any
     chat: list[dict[str, Any]]
     context: str
 
     def __init__(self, context_file: Path, vlm_size: str = "4b") -> None:
-        vlm_name = f"google/gemma-3-{vlm_size}-it"
+        model_path = f"google/gemma-3-{vlm_size}-it"
+        model = Gemma3ForConditionalGeneration.from_pretrained(model_path)
+        tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.processor = AutoProcessor.from_pretrained(model_path)
         self.generator = pipeline(
             "image-text-to-text",
-            model=vlm_name,
+            model=model,
+            tokenizer=tokenizer,
+            processor=self.processor,
             device_map="auto",
-            torch_dtype=torch.bfloat16,
+            dtype=torch.bfloat16,
         )
         self.chat = []
         with open(context_file, "r") as file:
