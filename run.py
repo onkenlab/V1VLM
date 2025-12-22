@@ -35,7 +35,7 @@ if __name__ == "__main__":
         "--vlm-size",
         type=str,
         default="4b",
-        choices=["4b", "12b", "27b"],
+        choices=["4b", "12b"],
     )
     parser.add_argument(
         "--initial-prompt",
@@ -64,8 +64,8 @@ if __name__ == "__main__":
         "--precision",
         type=str,
         choices=["32", "bf16"],
-        default="32",
-        help="Precision to use for inference, both model weights and input data would be converted.",
+        default="bf16",
+        help="ViV1T precision to use for inference, both model weights and input data would be converted.",
     )
     parser.add_argument(
         "--num-steps", type=int, default=5, help="Number of interaction steps"

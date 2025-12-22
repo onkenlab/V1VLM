@@ -16,20 +16,19 @@ from transformers import (
 
 class VisionLanguageModel:
     generator: Any
-    processor: Any
     chat: list[dict[str, Any]]
     context: str
 
     def __init__(self, context_file: Path, vlm_size: str = "4b") -> None:
-        model_path = f"google/gemma-3-{vlm_size}-it"
+        model_path = f"asnelt/gemma-3-{vlm_size}-v1vlm"
         model = Gemma3ForConditionalGeneration.from_pretrained(model_path)
         tokenizer = AutoTokenizer.from_pretrained(model_path)
-        self.processor = AutoProcessor.from_pretrained(model_path)
+        processor = AutoProcessor.from_pretrained(model_path)
         self.generator = pipeline(
             "image-text-to-text",
             model=model,
             tokenizer=tokenizer,
-            processor=self.processor,
+            processor=processor,
             device_map="auto",
             dtype=torch.bfloat16,
         )

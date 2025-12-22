@@ -2,8 +2,8 @@
 
 Code for the V1VLM model, a vision language model using
 [ViV1T](https://github.com/bryanlimy/ViV1T-closed-loop) as a digital twin of
-primary visual cortex, based on Google's Gemma-3 and Black Forest Labs'
-FLUX.1.
+primary visual cortex, based on Black Forest Labs' FLUX.1 and a custom
+version of Google's Gemma-3 finetuned for neuroscience-related tasks.
 
 
 ## Installation
@@ -11,7 +11,7 @@ FLUX.1.
 After setting up [ViV1T](https://github.com/bryanlimy/ViV1T-closed-loop)
 install the following additional required packages:
 ```
-pip install diffusers sentencepiece transformers accelerate markdown-pdf
+pip install diffusers sentencepiece transformers peft accelerate markdown-pdf
 ```
 
 

@@ -12,7 +12,7 @@ class InputGenerator:
     def __init__(self, device: torch.device) -> None:
         self.device = device
         self.generator = FluxPipeline.from_pretrained(
-            "black-forest-labs/FLUX.1-schnell", dtype=torch.bfloat16
+            "black-forest-labs/FLUX.1-schnell", torch_dtype=torch.bfloat16
         ).to(self.device)
 
     def generate(self, prompt: str) -> torch.Tensor:
